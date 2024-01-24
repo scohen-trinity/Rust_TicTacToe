@@ -1,34 +1,7 @@
 use std::io;
+use crate::grid::Grid;
 
-#[derive(Debug)]
-struct Grid {
-    positions: [Marker; 9],
-}
-
-impl Grid {
-    fn empty_grid() -> Self {
-        Grid {
-            positions: [Marker::B; 9],
-        }
-    }
-
-    fn update_grid(&mut self, player: &Player, user_move: &str) {
-        println!("spot moved to {}", user_move);
-        let square: usize = user_move.trim().parse().expect("Could not parse into int");
-        match player {
-            Player::One => {
-                if self.positions[square] == Marker::B {
-                    self.positions[square] = Marker::X
-                }
-            },
-            Player::Two => {
-                if self.positions[square] == Marker::B {
-                    self.positions[square] = Marker::O
-                }
-            },
-        }
-    }
-}
+mod grid;
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 enum Marker {
@@ -85,6 +58,7 @@ fn display_grid(grid: &Grid) {
     println!("{:?} | {:?} | {:?} ", &grid.positions[3], &grid.positions[4], &grid.positions[5]);
     println!("----------");
     println!("{:?} | {:?} | {:?} ", &grid.positions[6], &grid.positions[7], &grid.positions[8]);
+    println!("");
 }
 
 fn check_grid(grid: &Grid) -> bool {
