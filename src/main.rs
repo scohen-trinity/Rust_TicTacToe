@@ -1,21 +1,5 @@
 use std::io;
-use crate::grid::Grid;
-
-mod grid;
-
-#[derive(Clone, Copy, Debug, PartialEq)]
-enum Marker {
-    X,
-    O,
-    B,
-}
-
-#[derive(Debug, PartialEq)]
-enum Player {
-    One,
-    Two,
-}
-
+use tic_tac_toe::{Grid, Marker, Player};
 fn main() {
     let mut player = Player::One;
     let mut playing = true;
