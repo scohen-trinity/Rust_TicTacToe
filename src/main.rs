@@ -1,5 +1,5 @@
 use std::io;
-use tic_tac_toe::{Grid, Marker, Player};
+use tic_tac_toe::{Grid, Player};
 fn main() {
     let mut player = Player::One;
     let mut playing = true;
@@ -15,9 +15,9 @@ fn main() {
 
         grid.update_grid(&player, &user_move);
 
-        display_grid(&grid);
+        grid.display_grid();
 
-        playing = check_grid(&grid);
+        playing = grid.check_grid();
 
         user_move = String::from("");
 
@@ -34,35 +34,4 @@ fn main() {
             println!("It's a tie!")
         }
     }   
-}
-
-fn display_grid(grid: &Grid) {
-    println!("{:?} | {:?} | {:?} ", &grid.positions[0], &grid.positions[1], &grid.positions[2]);
-    println!("----------");
-    println!("{:?} | {:?} | {:?} ", &grid.positions[3], &grid.positions[4], &grid.positions[5]);
-    println!("----------");
-    println!("{:?} | {:?} | {:?} ", &grid.positions[6], &grid.positions[7], &grid.positions[8]);
-    println!("");
-}
-
-fn check_grid(grid: &Grid) -> bool {
-    let winning_combos: [[usize; 3]; 8] = [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [2, 4, 6],
-    ];
-
-    for element in &winning_combos {
-        if &grid.positions[element[0]] != &Marker::B && &grid.positions[element[0]] == &grid.positions[element[1]] && &grid.positions[element[1]] == &grid.positions[element[2]] {
-            println!("{:?} won!", &grid.positions[element[0]]);
-            return false;
-        }
-    }
-
-    true
 }
