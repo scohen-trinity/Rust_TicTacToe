@@ -13,18 +13,17 @@ impl Grid {
         }
     }
 
-    pub fn update_grid(&mut self, player: &Player, user_move: &str) {
+    pub fn update_grid(&mut self, player: &Player, user_move: usize) {
         println!("spot moved to {}", user_move);
-        let square: usize = user_move.trim().parse().expect("Could not parse into int");
         match player {
             Player::One => {
-                if self.positions[square] == Marker::B {
-                    self.positions[square] = Marker::X
+                if self.positions[user_move] == Marker::B {
+                    self.positions[user_move] = Marker::X
                 }
             },
             Player::Two => {
-                if self.positions[square] == Marker::B {
-                    self.positions[square] = Marker::O
+                if self.positions[user_move] == Marker::B {
+                    self.positions[user_move] = Marker::O
                 }
             },
         }
