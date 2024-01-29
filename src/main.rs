@@ -9,12 +9,9 @@ fn main() {
 
     while playing == true {
         
-        let square: Result<usize, ParseIntError> = prompt_user();
+        let user_move: usize = get_user_move();
 
-        match square {
-            Ok(val) => grid.update_grid(&player, val),
-            Err(err) => panic!("Did not enter a valid number, error: {err}"),
-        }
+        grid.update_grid(&player, user_move);
 
         grid.display_grid();
 
@@ -35,12 +32,20 @@ fn main() {
     }   
 }
 
-fn prompt_user() -> Result<usize, ParseIntError> {
-    let mut user_move = String::new();
+fn get_user_move() -> usize {
+    let mut user_move: String = String::new();
 
     println!("Enter a square number you want to move to: ");
         
     io::stdin().read_line(&mut user_move).unwrap();
 
-    user_move.trim().parse()
+    let user_move: Result<usize, ParseIntError> = user_move.trim().parse();
+
+    match user_move {
+        Ok(val) => { return val; },
+        Err(err) => {
+            println!("Did not enter a valid square, try again!: {err}");
+            return get_user_move();
+        },
+    }
 }
