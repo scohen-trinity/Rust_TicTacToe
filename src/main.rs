@@ -1,32 +1,24 @@
-use std::io;
+use std::{io, usize};
 use tic_tac_toe::{Grid, Player};
 use std::num::ParseIntError;
 fn main() {
-    let mut player = Player::One;
-    let mut playing = true;
-    let mut user_move = String::new();
+    let mut player: Player = Player::One;
+    let mut playing: bool = true;
     let mut turns: u8 = 1;
-    let mut squares: Result<usize, ParseIntError> = Ok(9);
-    let mut grid = Grid::empty_grid();
+    let mut grid: Grid = Grid::empty_grid();
 
     while playing == true {
-        println!("Enter a square number you want to move to: ");
         
-        io::stdin().read_line(&mut user_move).unwrap();
+        let square: Result<usize, ParseIntError> = prompt_user();
 
-        squares = user_move.trim().parse();
-
-        match squares {
+        match square {
             Ok(val) => grid.update_grid(&player, val),
             Err(err) => panic!("Did not enter a valid number, error: {err}"),
         }
 
-
         grid.display_grid();
 
         playing = grid.check_grid();
-
-        user_move = String::from("");
 
         if player == Player::One {
             player = Player::Two;
@@ -41,4 +33,14 @@ fn main() {
             println!("It's a tie!")
         }
     }   
+}
+
+fn prompt_user() -> Result<usize, ParseIntError> {
+    let mut user_move = String::new();
+
+    println!("Enter a square number you want to move to: ");
+        
+    io::stdin().read_line(&mut user_move).unwrap();
+
+    user_move.trim().parse()
 }
